@@ -55,10 +55,10 @@ Validator::isValidPhone(string $phone): bool
 Validator::isValidDate(string $date): bool
 Validator::isNotEmpty(string $input): bool
 Validator::sanitize(string $input): string
+
 🖥️ Console d’interface (CLI)
 Menu Principal
-markdown
-Copier le code
+
 === Unity Care CLI ===
 1. Gérer les patients
 2. Gérer les médecins
@@ -66,8 +66,7 @@ Copier le code
 4. Statistiques
 5. Quitter
 Exemple : Gestion des Patients
-markdown
-Copier le code
+
 === Gestion des Patients ===
 1. Lister tous les patients
 2. Rechercher un patient
@@ -89,8 +88,6 @@ Patient::countByDepartment(): array
 📋 Affichage ASCII
 Classe utilitaire pour un affichage clair :ConsoleTable
 
-diff
-Copier le code
 +----+------------+-----------+------------+
 | ID | Prénom     | Nom       | Département|
 +----+------------+-----------+------------+
