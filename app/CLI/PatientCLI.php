@@ -2,6 +2,10 @@
 
 namespace App\CLI;
 
+require_once __DIR__ . '/../Models/Patient.php';
+
+use App\Models\Patient;
+
 class PatientCLI
 {
     public static function menu()
@@ -12,9 +16,23 @@ class PatientCLI
 
             switch ($choice) {
                 case '1':
-                    echo "Lister tous les patients (à venir)\n";
+                    require_once __DIR__ . '/../Models/Patient.php';
+
+                    $patients = \App\Models\Patient::list();
+
+                    if (empty($patients)) {
+                        echo "Aucun patient trouvé.\n";
+                    } else {
+                        echo "=== Liste des Patients ===\n";
+                        foreach ($patients as $p) {
+                            echo "[{$p['id']}] {$p['firstName']} {$p['lastName']} | {$p['email']} | {$p['phone']} | Dept: {$p['departmentId']}\n";
+                        }
+                    }
+
                     self::pause();
                     break;
+
+
 
                 case '2':
                     echo "Rechercher un patient (à venir)\n";
