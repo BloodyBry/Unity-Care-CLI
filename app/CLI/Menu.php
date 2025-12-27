@@ -12,8 +12,8 @@ class Menu
 
             switch ($choice) {
                 case '1':
-                    echo "Gestion des patients (à venir)\n";
-                    self::pause();
+                    require_once __DIR__ . '/PatientCLI.php';
+                    \App\CLI\PatientCLI::menu();
                     break;
 
                 case '2':
