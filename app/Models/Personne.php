@@ -24,7 +24,6 @@ abstract class Personne
         $this->phone = $phone;
     }
 
-    // Getters (needed later)
     public function getId(): int { return $this->id; }
     public function getFirstName(): string { return $this->firstName; }
     public function getLastName(): string { return $this->lastName; }

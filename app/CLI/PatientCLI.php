@@ -40,22 +40,21 @@ class PatientCLI
                     break;
 
                 case '3':
-                    echo "Ajouter un patient (à venir)\n";
-                    self::pause();
+                    self::addPatient();
                     break;
 
                 case '4':
-                    echo "Modifier un patient (à venir)\n";
-                    self::pause();
+                    self::updatePatient();
                     break;
+
 
                 case '5':
-                    echo "Supprimer un patient (à venir)\n";
-                    self::pause();
+                    self::deletePatient();
                     break;
 
+
                 case '6':
-                    return; // go back to main menu
+                    return;
 
                 default:
                     echo "Choix invalide. Réessayez.\n";
@@ -76,6 +75,145 @@ class PatientCLI
         echo "6. Retour\n";
         echo "Votre choix: ";
     }
+
+
+    private static function addPatient()
+    {
+        system('clear');
+        echo "=== Ajouter un Patient ===\n";
+
+        echo "First name: ";
+        $firstName = trim(fgets(STDIN));
+
+        echo "Last name: ";
+        $lastName = trim(fgets(STDIN));
+
+        echo "Email: ";
+        $email = trim(fgets(STDIN));
+
+        echo "Phone: ";
+        $phone = trim(fgets(STDIN));
+
+        echo "Department ID: ";
+        $departmentId = (int) trim(fgets(STDIN));
+
+        $patient = new Patient(
+            $firstName,
+            $lastName,
+            $email,
+            $phone,
+            $departmentId
+        );
+
+        if ($patient->add()) {
+            echo "\nPatient added successfully!\n";
+        } else {
+            echo "\nError adding patient.\n";
+        }
+
+        self::pause();
+    }
+
+    private static function updatePatient()
+    {
+        system('clear');
+        echo "=== Modifier un Patient ===\n";
+
+        echo "Patient ID: ";
+        $id = (int) trim(fgets(STDIN));
+
+        $data = Patient::findById($id);
+
+        if (!$data) {
+            echo "\nPatient not found.\n";
+            self::pause();
+            return;
+        }
+
+        echo "First name ({$data['firstName']}): ";
+        $firstName = trim(fgets(STDIN));
+        $firstName = $firstName !== '' ? $firstName : $data['firstName'];
+
+        echo "Last name ({$data['lastName']}): ";
+        $lastName = trim(fgets(STDIN));
+        $lastName = $lastName !== '' ? $lastName : $data['lastName'];
+
+        echo "Email ({$data['email']}): ";
+        $email = trim(fgets(STDIN));
+        $email = $email !== '' ? $email : $data['email'];
+
+        echo "Phone ({$data['phone']}): ";
+        $phone = trim(fgets(STDIN));
+        $phone = $phone !== '' ? $phone : $data['phone'];
+
+        echo "Department ID ({$data['departmentId']}): ";
+        $deptInput = trim(fgets(STDIN));
+        $departmentId = $deptInput !== '' ? (int)$deptInput : (int)$data['departmentId'];
+
+        $patient = new Patient(
+            $firstName,
+            $lastName,
+            $email,
+            $phone,
+            $departmentId,
+            $id
+        );
+
+        if ($patient->update()) {
+            echo "\nPatient updated successfully!\n";
+        } else {
+            echo "\nUpdate failed.\n";
+        }
+
+        self::pause();
+    }
+
+    private static function deletePatient()
+    {
+        system('clear');
+        echo "=== Supprimer un Patient ===\n";
+
+        echo "Patient ID: ";
+        $id = (int) trim(fgets(STDIN));
+
+        $data = Patient::findById($id);
+
+        if (!$data) {
+            echo "\nPatient not found.\n";
+            self::pause();
+            return;
+        }
+
+        echo "\nPatient: {$data['firstName']} {$data['lastName']}\n";
+        echo "Are you sure? (y/n): ";
+        $confirm = strtolower(trim(fgets(STDIN)));
+
+        if ($confirm !== 'y') {
+            echo "\nDelete cancelled.\n";
+            self::pause();
+            return;
+        }
+
+        $patient = new Patient(
+            $data['firstName'],
+            $data['lastName'],
+            $data['email'],
+            $data['phone'],
+            $data['departmentId'],
+            $id
+        );
+
+        if ($patient->delete()) {
+            echo "\nPatient deleted successfully!\n";
+        } else {
+            echo "\nDelete failed.\n";
+        }
+
+        self::pause();
+    }
+
+
+
 
     private static function pause()
     {
