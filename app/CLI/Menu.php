@@ -1,6 +1,24 @@
 <?php
 
+// namespace App\CLI;
 namespace App\CLI;
+
+// Include the CLI files
+require_once __DIR__ . '/PatientCLI.php';
+require_once __DIR__ . '/DoctorCLI.php';
+require_once __DIR__ . '/DepartmentCLI.php';
+
+// Include the Models
+require_once __DIR__ . '/../Models/Patient.php';
+require_once __DIR__ . '/../Models/Doctor.php';
+require_once __DIR__ . '/../Models/Department.php';
+
+use App\CLI\PatientCLI;
+use App\CLI\DoctorCLI;
+use App\CLI\DepartmentCLI;
+use App\Models\Patient;
+use App\Models\Doctor;
+use App\Models\Department;
 
 class Menu
 {
@@ -23,14 +41,19 @@ class Menu
 
 
                 case '3':
-                    echo "Gestion des départements (à venir)\n";
+                    require_once __DIR__ . '/DepartmentCLI.php';
+                    \App\CLI\DepartmentCLI::menu();
+                    break;
+
+
+                case '4':
+                    echo "=== Statistics ===\n";
+                    echo "Total Patients: " . \App\Models\Patient::count() . "\n";
+                    echo "Total Doctors: " . \App\Models\Doctor::count() . "\n";
+                    echo "Total Departments: " . \App\Models\Department::count() . "\n";
                     self::pause();
                     break;
 
-                case '4':
-                    echo "Statistiques (à venir)\n";
-                    self::pause();
-                    break;
 
                 case '5':
                     echo "Au revoir\n";
@@ -60,4 +83,6 @@ class Menu
         echo "\nAppuyez sur Entrée pour continuer...";
         fgets(STDIN);
     }
+
+    
 }

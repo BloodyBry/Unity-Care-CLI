@@ -147,4 +147,21 @@ class Patient extends Personne
     }
 
 
+
+    public static function count(): int
+    {
+        $conn = new \mysqli('127.0.0.1', 'root', '', 'clinic_cli_oop');
+        if ($conn->connect_error) {
+            die("DB Error: " . $conn->connect_error);
+        }
+
+        $result = $conn->query("SELECT COUNT(*) as total FROM patient");
+        $count = $result->fetch_assoc()['total'];
+
+        $conn->close();
+        return (int)$count;
+    }
+
+
+
 }
