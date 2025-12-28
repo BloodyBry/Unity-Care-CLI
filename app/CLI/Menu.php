@@ -17,9 +17,10 @@ class Menu
                     break;
 
                 case '2':
-                    echo "Gestion des médecins (à venir)\n";
-                    self::pause();
+                    require_once __DIR__ . '/DoctorCLI.php';
+                    \App\CLI\DoctorCLI::menu();
                     break;
+
 
                 case '3':
                     echo "Gestion des départements (à venir)\n";
